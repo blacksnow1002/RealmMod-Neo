@@ -109,6 +109,16 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 // "optional", meaning it will not be pulled by dependents of this mod.
 configurations {
     runtimeClasspath.extendsFrom localRuntime
+
+    all {
+        resolutionStrategy {
+
+            // 強制所有 org.slf4j:slf4j-api 都使用 2.0.16 版本
+            force 'org.slf4j:slf4j-api:2.0.16'
+            force 'org.slf4j:jcl-over-slf4j:2.0.16'
+        }
+    }
+
 }
 
 dependencies {
@@ -133,6 +143,10 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.5.1'
+
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: '7.0.2'
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
