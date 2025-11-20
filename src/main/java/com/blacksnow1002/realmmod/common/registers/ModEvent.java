@@ -31,9 +31,9 @@ public class ModEvent {
 
             // 3. 核心修正：使用 Setter，將新數據寫入到 progressAttachment 實例中
             // 絕對不能使用 progressAttachment = loadedDataObj;
-            progressAttachment.setCultivationRealm(loadedDataObj.getCultivationRealm());
-            progressAttachment.setLayer(loadedDataObj.getLayer());
+            progressAttachment.setRealmId(loadedDataObj.getRealmId());
             progressAttachment.setCultivation(loadedDataObj.getCultivation());
+            progressAttachment.setRequiredCultivation(loadedDataObj.getRequiredCultivation());
             progressAttachment.setSuccessRate(loadedDataObj.getSuccessRate());
         }
     }
@@ -45,12 +45,12 @@ public class ModEvent {
 
         CultivationData data = player.getData(CULTIVATION_ATTACHMENT.get());
         if (data != null) {
-            String realm = data.getCultivationRealm().name();
-            int layer = data.getLayer();
+            String realmId = data.getRealmId();
             int cultivation = data.getCultivation();
+            int requiredCultivation = data.getRequiredCultivation();
             float successRate = data.getSuccessRate();
 
-            PlayerDataService.savePlayerProgress(uuid, realm, layer, cultivation, successRate);
+            PlayerDataService.savePlayerProgress(uuid, realmId, cultivation, requiredCultivation, successRate);
 
             System.out.println("✅ 玩家 [" + player.getName().getString() + "] 修為資料已儲存到 MariaDB。");
         }
@@ -62,9 +62,9 @@ public class ModEvent {
             CultivationData oldData = event.getOriginal().getData(CULTIVATION_ATTACHMENT.get());
             CultivationData newData = event.getEntity().getData(CULTIVATION_ATTACHMENT.get());
 
-            newData.setCultivationRealm(oldData.getCultivationRealm());
-            newData.setLayer(oldData.getLayer());
+            newData.setRealmId(oldData.getRealmId());
             newData.setCultivation(oldData.getCultivation());
+            newData.setRequiredCultivation(oldData.getRequiredCultivation());
             newData.setSuccessRate(oldData.getSuccessRate());
 
         }
