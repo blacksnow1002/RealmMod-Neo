@@ -1,6 +1,6 @@
 package com.blacksnow1002.realmmod.database;
 
-import com.blacksnow1002.realmmod.system.realm.attachment.CultivationData;
+import com.blacksnow1002.realmmod.system.realm.attachment.RealmData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,7 +40,7 @@ public class PlayerDataService {
         }
     }
 
-    public static Optional<CultivationData> loadPlayerProgress(UUID playerUUID) {
+    public static Optional<RealmData> loadPlayerProgress(UUID playerUUID) {
         try (Connection conn = ConnectionPoolManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(LOAD_SQL)) {
 
@@ -53,7 +53,7 @@ public class PlayerDataService {
                 int requiredCultivation = rs.getInt("required_cultivation");
                 float success_rate = rs.getFloat("success_rate");
 
-                return Optional.of(new CultivationData(realmId, cultivation, requiredCultivation, success_rate));
+                return Optional.of(new RealmData(realmId, cultivation, requiredCultivation, success_rate));
             }
         } catch (SQLException e) {
             System.err.println("❌ MariaDB 載入錯誤：" + playerUUID);

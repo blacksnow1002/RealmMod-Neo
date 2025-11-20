@@ -1,18 +1,17 @@
-package com.blacksnow1002.realmmod.common.registers;
+package com.blacksnow1002.realmmod.common.registry;
 
 import com.blacksnow1002.realmmod.RealmMod;
 import com.blacksnow1002.realmmod.database.PlayerDataService;
-import com.blacksnow1002.realmmod.system.realm.attachment.CultivationData;
+import com.blacksnow1002.realmmod.system.realm.attachment.RealmData;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.blacksnow1002.realmmod.common.attachment.ModAttachment.CULTIVATION_ATTACHMENT;
+import static com.blacksnow1002.realmmod.common.attachment.ModAttachment.REALM_ATTACHMENT;
 
 @EventBusSubscriber(modid = RealmMod.MOD_ID)
 public class ModEvent {
@@ -22,12 +21,12 @@ public class ModEvent {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         UUID uuid = player.getUUID();
 
-        CultivationData progressAttachment = player.getData(CULTIVATION_ATTACHMENT.get());
+        RealmData progressAttachment = player.getData(REALM_ATTACHMENT.get());
 
-        Optional<CultivationData> loadedData = PlayerDataService.loadPlayerProgress(uuid);
+        Optional<RealmData> loadedData = PlayerDataService.loadPlayerProgress(uuid);
 
         if (loadedData.isPresent()) {
-            CultivationData loadedDataObj = loadedData.get();
+            RealmData loadedDataObj = loadedData.get();
 
             // 3. 核心修正：使用 Setter，將新數據寫入到 progressAttachment 實例中
             // 絕對不能使用 progressAttachment = loadedDataObj;
@@ -43,7 +42,7 @@ public class ModEvent {
         ServerPlayer player = (ServerPlayer) event.getEntity();
         UUID uuid = player.getUUID();
 
-        CultivationData data = player.getData(CULTIVATION_ATTACHMENT.get());
+        RealmData data = player.getData(REALM_ATTACHMENT.get());
         if (data != null) {
             String realmId = data.getRealmId();
             int cultivation = data.getCultivation();
@@ -59,8 +58,8 @@ public class ModEvent {
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
-            CultivationData oldData = event.getOriginal().getData(CULTIVATION_ATTACHMENT.get());
-            CultivationData newData = event.getEntity().getData(CULTIVATION_ATTACHMENT.get());
+            RealmData oldData = event.getOriginal().getData(REALM_ATTACHMENT.get());
+            RealmData newData = event.getEntity().getData(REALM_ATTACHMENT.get());
 
             newData.setRealmId(oldData.getRealmId());
             newData.setCultivation(oldData.getCultivation());

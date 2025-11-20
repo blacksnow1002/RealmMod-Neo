@@ -1,6 +1,9 @@
 package com.blacksnow1002.realmmod;
 
 import com.blacksnow1002.realmmod.common.attachment.ModAttachment;
+import com.blacksnow1002.realmmod.common.registry.ModBlocks;
+import com.blacksnow1002.realmmod.common.registry.ModCreativeModeTabs;
+import com.blacksnow1002.realmmod.common.registry.item.ModItems;
 import com.blacksnow1002.realmmod.database.ConnectionPoolManager;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import org.slf4j.Logger;
@@ -36,7 +39,11 @@ public class RealmMod {
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
         ModAttachment.ATTACHMENT_TYPES.register(modEventBus);
+
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -73,4 +80,6 @@ public class RealmMod {
         ConnectionPoolManager.getInstance().closePool();
 
     }
+
+
 }

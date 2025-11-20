@@ -2,7 +2,7 @@ package com.blacksnow1002.realmmod.system.realm.command;
 
 import com.blacksnow1002.realmmod.RealmMod;
 import com.blacksnow1002.realmmod.system.realm.BreakthroughLogicHandler;
-import com.blacksnow1002.realmmod.system.realm.attachment.CultivationData;
+import com.blacksnow1002.realmmod.system.realm.attachment.RealmData;
 
 import com.blacksnow1002.realmmod.system.realm.data.BaseRealm;
 import com.blacksnow1002.realmmod.system.realm.data.RealmRegistry;
@@ -19,10 +19,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
-import static com.blacksnow1002.realmmod.common.attachment.ModAttachment.CULTIVATION_ATTACHMENT;
+import static com.blacksnow1002.realmmod.common.attachment.ModAttachment.REALM_ATTACHMENT;
 
 @EventBusSubscriber(modid = RealmMod.MOD_ID)
-public class CultivationCommand {
+public class RealmCommand {
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
@@ -32,16 +32,16 @@ public class CultivationCommand {
                 Commands.literal("realm")
                         .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("get")
-                                .executes(CultivationCommand::getRealm)
+                                .executes(RealmCommand::getRealm)
                         )
                         .then(Commands.literal("set")
                                 .then(Commands.argument("realmId", StringArgumentType.string())
-                                        .executes(CultivationCommand::setRealm)
+                                        .executes(RealmCommand::setRealm)
                                 )
                         )
                         .then(Commands.literal("breakthrough")
                                 .requires(source -> source.hasPermission(0))
-                                .executes(CultivationCommand::breakthrough)
+                                .executes(RealmCommand::breakthrough)
                         )
         );
 
@@ -50,7 +50,7 @@ public class CultivationCommand {
                         .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("add")
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                        .executes(CultivationCommand::addCultivation)
+                                        .executes(RealmCommand::addCultivation)
                                 )
                         )
         );
@@ -60,7 +60,7 @@ public class CultivationCommand {
     private static int getRealm(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
         ServerPlayer player = ctx.getSource().getPlayer();
         if (player == null) return 0;
-        CultivationData data = player.getData(CULTIVATION_ATTACHMENT.get());
+        RealmData data = player.getData(REALM_ATTACHMENT.get());
         BaseRealm realm = RealmRegistry.getRealmById(data.getRealmId());
 
         player.sendSystemMessage(Component.literal("境界：" + realm.getDisplayName() +
@@ -73,7 +73,7 @@ public class CultivationCommand {
     private static int setRealm(CommandContext<CommandSourceStack> ctx) {
         ServerPlayer player = ctx.getSource().getPlayer();
         if (player == null) return 0;
-        CultivationData data = player.getData(CULTIVATION_ATTACHMENT.get());
+        RealmData data = player.getData(REALM_ATTACHMENT.get());
 
         String realmId = StringArgumentType.getString(ctx, "realmId");
 
@@ -95,7 +95,7 @@ public class CultivationCommand {
         ServerPlayer player = ctx.getSource().getPlayer();
         if (player == null) return 0;
 
-        CultivationData data = player.getData(CULTIVATION_ATTACHMENT.get());
+        RealmData data = player.getData(REALM_ATTACHMENT.get());
         data.addCultivation(IntegerArgumentType.getInteger(ctx, "amount"));
 
         return 1;

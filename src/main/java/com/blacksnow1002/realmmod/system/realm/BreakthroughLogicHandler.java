@@ -1,17 +1,16 @@
 package com.blacksnow1002.realmmod.system.realm;
 
-import com.blacksnow1002.realmmod.system.realm.attachment.CultivationData;
+import com.blacksnow1002.realmmod.system.realm.attachment.RealmData;
 import com.blacksnow1002.realmmod.system.realm.data.BaseRealm;
 import com.blacksnow1002.realmmod.system.realm.data.RealmRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
-import java.awt.*;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.blacksnow1002.realmmod.common.attachment.ModAttachment.CULTIVATION_ATTACHMENT;
+import static com.blacksnow1002.realmmod.common.attachment.ModAttachment.REALM_ATTACHMENT;
 
 public class BreakthroughLogicHandler {
 
@@ -20,7 +19,7 @@ public class BreakthroughLogicHandler {
     public static void startBreakthrough(Player player) {
         if (!(player instanceof ServerPlayer serverPlayer)) return;
 
-        CultivationData data = player.getData(CULTIVATION_ATTACHMENT);
+        RealmData data = player.getData(REALM_ATTACHMENT);
 
         String realmId = data.getRealmId();
         BaseRealm realm = RealmRegistry.getRealmById(realmId);
@@ -41,7 +40,7 @@ public class BreakthroughLogicHandler {
         if (random.nextFloat() > successRate) {
             serverPlayer.sendSystemMessage(Component.literal("突破境界失敗，損失 " + cultivationAlter * 100 + "% 修為，增加 "+ successRateAlter * 100 + "% 突破成功率，現在成功率為" + (successRate + successRateAlter) * 100 + "%"));
             data.setCultivation((int) (cultivation * cultivationAlter));
-            data.setSuccessRate((float) (successRate + successRateAlter));
+            data.setSuccessRate(successRate + successRateAlter);
             return;
         }
 
