@@ -25,7 +25,8 @@ public class SpiritFruitItem extends Item {
             RealmData data = player.getData(REALM_ATTACHMENT);
             data.addCultivation(cultivationGain);
 
-            player.sendSystemMessage(Component.literal("§a你吞下靈果，只覺一股清靈之氣湧入丹田！修為 +§b" + cultivationGain + "%s §7(目前：§e" + data.getCultivation() + "§7/§e" + data.getRequiredCultivation() + "§7)§r"));
+            stack.shrink(1);
+            player.sendSystemMessage(Component.literal("§a你吞下靈果，只覺一股清靈之氣湧入丹田！修為 +§b" + cultivationGain + " §7(目前：§e" + data.getCultivation() + "§7/§e" + data.getRequiredCultivation() + "§7)§r"));
         }
         return stack;
     }

@@ -2,6 +2,7 @@ package com.blacksnow1002.realmmod.common.registry;
 
 import com.blacksnow1002.realmmod.RealmMod;
 import com.blacksnow1002.realmmod.database.PlayerDataService;
+import com.blacksnow1002.realmmod.system.cultivation.MeditationLogicHandler;
 import com.blacksnow1002.realmmod.system.realm.attachment.RealmData;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -52,6 +53,8 @@ public class ModEvent {
             PlayerDataService.savePlayerProgress(uuid, realmId, cultivation, requiredCultivation, successRate);
 
             System.out.println("✅ 玩家 [" + player.getName().getString() + "] 修為資料已儲存到 MariaDB。");
+
+            MeditationLogicHandler.removeMeditationPlayer(player);
         }
     }
 

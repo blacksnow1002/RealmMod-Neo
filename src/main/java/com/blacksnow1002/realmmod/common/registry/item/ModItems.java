@@ -14,7 +14,7 @@ public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(RealmMod.MOD_ID);
 
     public static final DeferredItem<Item> SPIRIT_STONE_LOW = ITEMS.registerItem("spirit_stone_low",
-            properties -> new SpiritFruitItem(properties, 10));
+            properties -> new SpiritStoneItem(properties, 10));
     public static final DeferredItem<Item> SPIRIT_STONE_MIDDLE = ITEMS.registerItem("spirit_stone_middle",
             properties -> new SpiritStoneItem(properties, 100));
     public static final DeferredItem<Item> SPIRIT_STONE_HIGH = ITEMS.registerItem("spirit_stone_high",

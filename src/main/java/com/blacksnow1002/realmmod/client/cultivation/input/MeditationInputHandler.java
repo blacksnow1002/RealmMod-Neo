@@ -27,10 +27,9 @@ public class MeditationInputHandler {
             meditateHoldTicks++;
             if (meditateHoldTicks == HOLD_TIME) {
                 ClientPacketListener connection = mc.getConnection();
-                String playerName = mc.player.getName().getString();
-                Integer number = 1;
-                StartMeditationPacket packet = new StartMeditationPacket(playerName, number);
+                if (connection == null) return;
 
+                StartMeditationPacket packet = new StartMeditationPacket(true);
                 connection.send(packet);
             }
         } else {
